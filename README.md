@@ -1,4 +1,5 @@
 # gpt-pipe
+[![GPT pipe](https://img.shields.io/crates/v/gpt-pipe.svg?style=plastic)](http://crates.io/crates/gpt-pipe)
 
 Execute GPT actions on stdin.
 
