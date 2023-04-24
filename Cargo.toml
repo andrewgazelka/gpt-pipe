@@ -5,6 +5,8 @@ edition = "2021"
 license = "MIT"
 description = "GPT use with UNIX pipes"
 authors = ["Andrew Gazelka <andrew.gazelka@gmail.com>"]
+repository = "https://github.com/andrewgazelka/gpt-pipe"
+readme = "README.md"
 
 [dependencies]
 anyhow = "1.0.70"
