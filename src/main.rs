@@ -1,7 +1,10 @@
+use std::io::Write;
 use std::process::ExitCode;
 
 use anyhow::{ensure, Context};
+use futures::StreamExt;
 use tokio::io::{stdin, AsyncReadExt};
+use tokio_openai::ChatRequest;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -32,9 +35,20 @@ async fn run() -> anyhow::Result<()> {
 
     let input = format!("{input}\n---\n{instructions}");
 
-    let res = openai.chat(&input).await?;
+    let request = ChatRequest::from(&input);
 
-    println!("{}", res);
+    let mut res = openai.stream_chat(request).await?.boxed();
+
+    while let Some(res) = res.next().await {
+        let res = res?;
+
+        print!("{}", res);
+
+        // flush
+        std::io::stdout().flush()?;
+    }
+
+    println!();
 
     Ok(())
 }
