@@ -1,13 +1,24 @@
 use std::io::Write;
+use std::pin::pin;
 use std::process::ExitCode;
 
 use anyhow::{ensure, Context};
+use futures::future::Either;
 use futures::StreamExt;
+use once_cell::sync::Lazy;
 use tokio::io::{stdin, AsyncReadExt};
 use tokio_openai::ChatRequest;
+use tokio_util::sync::CancellationToken;
+
+static CANCEL_TOKEN: Lazy<CancellationToken> = Lazy::new(CancellationToken::new);
 
 #[tokio::main]
 async fn main() -> ExitCode {
+
+    ctrlc::set_handler(move || {
+        CANCEL_TOKEN.cancel();
+    }).unwrap();
+
     if let Err(e) = run().await {
         eprintln!("error: {}", e);
         return ExitCode::FAILURE;
@@ -39,13 +50,27 @@ async fn run() -> anyhow::Result<()> {
 
     let mut res = openai.stream_chat(request).await?.boxed();
 
-    while let Some(res) = res.next().await {
-        let res = res?;
+    loop {
+        let next = res.next();
+        let cancel = CANCEL_TOKEN.cancelled();
 
-        print!("{}", res);
+        let next = pin!(next);
+        let cancel = pin!(cancel);
+
+        let next = match futures::future::select(next, cancel).await {
+            Either::Left((Some(next), ..)) => {
+                next?
+            }
+            _ => {
+                break;
+            }
+        };
+
+        print!("{}", next);
 
         // flush
         std::io::stdout().flush()?;
+
     }
 
     println!();
