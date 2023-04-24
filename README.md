@@ -11,7 +11,7 @@ nmap <leader>p :%! gpt-pipe you are a pragmatic planner. give insight/critique t
 
 which reorders my task list according to what GPT-4 thinks I should complete first.
 
-To see the prompt being typed out in vim asyncronously you can do
+To see the prompt being typed out in vim asynchronously, you can do
 
 ```vim
 function! HandleOutput(job_id, data, event)
@@ -44,4 +44,10 @@ and then map it to `<leader>p` with
 
 ```vim
 nmap <leader>p :call StartAsyncCommand(getline(1, '$'))<CR>
+```
+
+# Installation
+
+```bash
+cargo install gpt-pipe
 ```
