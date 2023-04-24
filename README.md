@@ -22,8 +22,6 @@ function! HandleOutput(job_id, data, event)
   call setline(line('$'), l:first_line)
 
   if len(l:output_lines) > 1
-    " call append(line('$'), '')
-    " call append(line('$'), "asdsadasddd")
     call append(line('$'), l:output_lines[1:])
   endif
 endfunction
