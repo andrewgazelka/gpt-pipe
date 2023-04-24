@@ -2,7 +2,7 @@
 
 Execute GPT actions on stdin.
 
-I am currently using this in `vim` like so
+I am currently using this in `vim` to do actions on my entire vim buffer like so:
 
 ```vim
 nmap <leader>p :%! gpt-pipe you are a pragmatic planner. give insight/critique tasks and how I should do them. reorder tasks and explain ordering<CR>
