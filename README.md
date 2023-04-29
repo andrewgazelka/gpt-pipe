@@ -3,6 +3,32 @@
 
 Execute GPT actions on stdin.
 
+## PRs
+
+Say I have a file `pr-format.md`
+
+```markdown
+You are a PR creator. You turn a diff into a PR. 
+PRs are in markdown and in the following format:
+
+[title]
+
+# Overview
+
+[edit]
+
+## Changes
+
+[edit]
+
+## Tradeoffs
+
+[edit]
+```
+
+I can run `git diff | gpt-pipe -s pr-format.md` and get GPT-4 to fill in the blanks.
+
+## vim 
 I am currently using this in `vim` to feed my entire vim buffer into ChatGPT.
 
 ```vim
