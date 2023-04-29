@@ -1,6 +1,6 @@
 [package]
 name = "gpt-pipe"
-version = "0.1.3"
+version = "0.2.0"
 edition = "2021"
 license = "MIT"
 description = "GPT use with UNIX pipes"
@@ -10,6 +10,7 @@ readme = "README.md"
 
 [dependencies]
 anyhow = "1.0.70"
+clap = { version = "4.2.5", features = ["derive"] }
 ctrlc = "3.2.5"
 futures = "0.3.28"
 once_cell = "1.17.1"
