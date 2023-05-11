@@ -3,6 +3,20 @@
 
 Execute GPT actions on stdin.
 
+## Auto document code
+
+Say I want to add docs to all TypeScript code
+
+```bash
+fd -e ts -x sh -c 'cat {} | gpt-pipe -s /Users/yourname/.config/gpt/doc.txt > {}.tmp && mv {}.tmp {}'
+```
+
+where `~/.config/gpt/doc.txt` is
+
+```text
+you are a helpful and competent programmer. add comments and docs to help document and explain parts of the code
+```
+
 ## PRs
 
 Say I have a file `pr-format.md`
